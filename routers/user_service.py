@@ -7,7 +7,7 @@ import uuid
 import math
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, HTTPException, Query
-from passlib.context import CryptContext
+import bcrypt as _bcrypt
 from jose import jwt
 
 from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
@@ -17,17 +17,16 @@ from utils.helpers import now_iso
 
 router = APIRouter()
 
-# Password hashing — bcrypt__truncate_error=False silently truncates passwords
-# longer than 72 bytes instead of raising an error (passlib >= 1.7.4 behaviour)
-pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto",
-    bcrypt__truncate_error=False,
-)
+def _hash_password(password: str) -> str:
+    pw = password.encode("utf-8")[:72]
+    return _bcrypt.hashpw(pw, _bcrypt.gensalt()).decode("utf-8")
 
-def _trunc(password: str) -> bytes:
-    """Hard-truncate password to 72 bytes before hashing/verifying."""
-    return password.encode("utf-8")[:72]
+def _verify_password(password: str, hashed: str) -> bool:
+    try:
+        pw = password.encode("utf-8")[:72]
+        return _bcrypt.checkpw(pw, hashed.encode("utf-8"))
+    except Exception:
+        return False
 
 RECYCLE_BIN_DAYS = 30
 
@@ -120,7 +119,7 @@ def register(user_data: UserCreate):
                     _hard_delete_user(sb, u["id"])
 
         new_id = f"USR-{uuid.uuid4().hex[:8]}"
-        hashed = pwd_context.hash(_trunc(user_data.password))
+        hashed = _hash_password(user_data.password)
 
         new_user = {
             "id": new_id,
@@ -176,7 +175,7 @@ def login(credentials: UserLogin):
         user = result.data[0]
 
         pw_hash = user.get("password_hash") or ""
-        hash_ok = pwd_context.verify(_trunc(credentials.password), pw_hash) if pw_hash else False
+        hash_ok = _verify_password(credentials.password, pw_hash) if pw_hash else False
         if not hash_ok:
             # Fallback: accept demo password
             if credentials.password != "password123":
@@ -209,12 +208,12 @@ def change_password(data: ChangePassword):
 
         # Verify current password
         pw_hash = user.get("password_hash") or ""
-        hash_ok = pwd_context.verify(_trunc(data.current_password), pw_hash) if pw_hash else False
+        hash_ok = _verify_password(data.current_password, pw_hash) if pw_hash else False
         is_demo = (data.current_password == "password123")
         if not hash_ok and not is_demo:
             raise HTTPException(status_code=401, detail="বর্তমান পাসওয়ার্ড ভুল (Current password is incorrect)")
 
-        new_hash = pwd_context.hash(_trunc(data.new_password))
+        new_hash = _hash_password(data.new_password)
         sb.table("users").update({"password_hash": new_hash}).eq("id", data.user_id).execute()
 
         return {"message": "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে (Password changed successfully)"}
@@ -286,7 +285,7 @@ def reset_password(data: ResetPasswordConfirm):
             raise HTTPException(status_code=400, detail="ভুল OTP কোড (Invalid OTP code)")
 
         sb = get_supabase()
-        new_hash = pwd_context.hash(_trunc(data.new_password))
+        new_hash = _hash_password(data.new_password)
         sb.table("users").update({"password_hash": new_hash}).eq("id", stored["user_id"]).execute()
 
         _reset_otp_store.pop(phone, None)

@@ -3,7 +3,7 @@ uvicorn[standard]
 pydantic
 python-multipart
 python-jose[cryptography]
-passlib[bcrypt]
+bcrypt
 supabase
 httpx
 python-dotenv
