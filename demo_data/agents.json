@@ -1,0 +1,104 @@
+[
+  {
+    "id": "USR005",
+    "name": "মো. হাসান আলী (Md. Hasan Ali)",
+    "gudam_name": "হাসান কৃষি গুদাম (Hasan Krishi Gudam)",
+    "location": {
+      "district": "রাজশাহী (Rajshahi)",
+      "upazila": "পবা (Poba)",
+      "village": "কাটাখালী (Katakhali)",
+      "lat": 24.3636,
+      "lon": 88.6241
+    },
+    "storage_capacity_tons": 500.0,
+    "current_stored_tons": 320.0,
+    "available_capacity_tons": 180.0,
+    "storage_type": "শীতলীকরণ ও শুকনো উভয় (Cold & Dry Storage)",
+    "resources": {
+      "weighing_scale": true,
+      "moisture_meter": true,
+      "quality_testing_kit": true,
+      "loading_equipment": true,
+      "transport_available": true,
+      "cold_room": true,
+      "fumigation": false
+    },
+    "operating_hours": "সকাল ৬টা - রাত ৯টা (6 AM - 9 PM)",
+    "phone": "+8801711000005",
+    "verification_count": 45,
+    "average_rating": 4.5,
+    "is_verified": true,
+    "is_active": true,
+    "service_areas": ["রাজশাহী (Rajshahi)", "নাটোর (Natore)", "চাঁপাইনবাবগঞ্জ (Chapainawabganj)"],
+    "commission_rate_percent": 3.0,
+    "joined_at": "2025-04-01T09:00:00Z"
+  },
+  {
+    "id": "USR006",
+    "name": "নাজমুল ইসলাম (Nazmul Islam)",
+    "gudam_name": "নাজমুল এগ্রো গুদাম (Nazmul Agro Gudam)",
+    "location": {
+      "district": "বগুড়া (Bogura)",
+      "upazila": "শিবগঞ্জ (Shibganj)",
+      "village": "মোকামতলা (Mokamtala)",
+      "lat": 24.8510,
+      "lon": 89.3650
+    },
+    "storage_capacity_tons": 800.0,
+    "current_stored_tons": 550.0,
+    "available_capacity_tons": 250.0,
+    "storage_type": "শুকনো গুদাম (Dry Storage)",
+    "resources": {
+      "weighing_scale": true,
+      "moisture_meter": true,
+      "quality_testing_kit": true,
+      "loading_equipment": true,
+      "transport_available": true,
+      "cold_room": false,
+      "fumigation": true
+    },
+    "operating_hours": "সকাল ৭টা - রাত ৮টা (7 AM - 8 PM)",
+    "phone": "+8801711000006",
+    "verification_count": 72,
+    "average_rating": 4.25,
+    "is_verified": true,
+    "is_active": true,
+    "service_areas": ["বগুড়া (Bogura)", "জয়পুরহাট (Joypurhat)", "নওগাঁ (Naogaon)"],
+    "commission_rate_percent": 2.5,
+    "joined_at": "2025-03-15T07:30:00Z"
+  },
+  {
+    "id": "USR007",
+    "name": "সালমা খাতুন (Salma Khatun)",
+    "gudam_name": "সালমা কোল্ড স্টোরেজ (Salma Cold Storage)",
+    "location": {
+      "district": "রংপুর (Rangpur)",
+      "upazila": "রংপুর সদর (Rangpur Sadar)",
+      "village": "মাহিগঞ্জ (Mahiganj)",
+      "lat": 25.7559,
+      "lon": 89.2445
+    },
+    "storage_capacity_tons": 350.0,
+    "current_stored_tons": 200.0,
+    "available_capacity_tons": 150.0,
+    "storage_type": "শীতলীকরণ গুদাম (Cold Storage)",
+    "resources": {
+      "weighing_scale": true,
+      "moisture_meter": true,
+      "quality_testing_kit": false,
+      "loading_equipment": true,
+      "transport_available": false,
+      "cold_room": true,
+      "fumigation": false
+    },
+    "operating_hours": "সকাল ৮টা - সন্ধ্যা ৬টা (8 AM - 6 PM)",
+    "phone": "+8801711000007",
+    "verification_count": 28,
+    "average_rating": 4.5,
+    "is_verified": true,
+    "is_active": true,
+    "service_areas": ["রংপুর (Rangpur)", "দিনাজপুর (Dinajpur)", "লালমনিরহাট (Lalmonirhat)"],
+    "commission_rate_percent": 3.5,
+    "joined_at": "2025-05-10T11:15:00Z"
+  }
+]

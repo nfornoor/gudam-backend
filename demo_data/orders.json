@@ -1,0 +1,156 @@
+[
+  {
+    "id": "ORD001",
+    "product_id": "PRD001",
+    "buyer_id": "USR008",
+    "farmer_id": "USR001",
+    "agent_id": "USR005",
+    "quantity": 50.0,
+    "unit_price": 2500.0,
+    "total_price": 125000.0,
+    "currency": "BDT",
+    "status": "completed",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মিরপুর (Mirpur)",
+      "detail": "কারওয়ান বাজার, দোকান নং ৪৫",
+      "lat": 23.7537,
+      "lon": 90.3929
+    },
+    "notes": "দ্রুত ডেলিভারি দরকার। কারওয়ান বাজারে পৌঁছাতে হবে।",
+    "created_at": "2025-11-14T10:00:00Z",
+    "updated_at": "2025-11-18T15:00:00Z"
+  },
+  {
+    "id": "ORD002",
+    "product_id": "PRD004",
+    "buyer_id": "USR009",
+    "farmer_id": "USR002",
+    "agent_id": "USR007",
+    "quantity": 10.0,
+    "unit_price": 2000.0,
+    "total_price": 20000.0,
+    "currency": "BDT",
+    "status": "delivered",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "গুলশান (Gulshan)",
+      "detail": "গুলশান-২, রোড ৯৮, বাড়ি ১২",
+      "lat": 23.7925,
+      "lon": 90.4078
+    },
+    "notes": "রেস্তোরাঁর জন্য। সপ্তাহে ২ বার সরবরাহ চাই।",
+    "created_at": "2025-11-22T11:00:00Z",
+    "updated_at": "2025-11-25T14:00:00Z"
+  },
+  {
+    "id": "ORD003",
+    "product_id": "PRD008",
+    "buyer_id": "USR008",
+    "farmer_id": "USR003",
+    "agent_id": "USR006",
+    "quantity": 100.0,
+    "unit_price": 2800.0,
+    "total_price": 280000.0,
+    "currency": "BDT",
+    "status": "shipped",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মিরপুর (Mirpur)",
+      "detail": "কারওয়ান বাজার, দোকান নং ৪৫",
+      "lat": 23.7537,
+      "lon": 90.3929
+    },
+    "notes": "ট্রাকে করে পাঠাতে হবে। ১০০ কুইন্টাল নাজিরশাইল।",
+    "created_at": "2025-11-28T09:00:00Z",
+    "updated_at": "2025-12-01T08:00:00Z"
+  },
+  {
+    "id": "ORD004",
+    "product_id": "PRD010",
+    "buyer_id": "USR009",
+    "farmer_id": "USR003",
+    "agent_id": "USR006",
+    "quantity": 5.0,
+    "unit_price": 5500.0,
+    "total_price": 27500.0,
+    "currency": "BDT",
+    "status": "confirmed",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "গুলশান (Gulshan)",
+      "detail": "গুলশান-২, রোড ৯৮, বাড়ি ১২",
+      "lat": 23.7925,
+      "lon": 90.4078
+    },
+    "notes": "মসুর ডাল ৫ কুইন্টাল। রেস্তোরাঁর জন্য মাসিক অর্ডার।",
+    "created_at": "2025-12-02T12:00:00Z",
+    "updated_at": "2025-12-03T09:00:00Z"
+  },
+  {
+    "id": "ORD005",
+    "product_id": "PRD011",
+    "buyer_id": "USR008",
+    "farmer_id": "USR004",
+    "agent_id": "USR005",
+    "quantity": 80.0,
+    "unit_price": 4000.0,
+    "total_price": 320000.0,
+    "currency": "BDT",
+    "status": "completed",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মিরপুর (Mirpur)",
+      "detail": "কারওয়ান বাজার, দোকান নং ৪৫",
+      "lat": 23.7537,
+      "lon": 90.3929
+    },
+    "notes": "পুরো ৮০ কুইন্টাল আম কিনতে চাই। আম মৌসুমের জন্য।",
+    "created_at": "2025-06-05T08:00:00Z",
+    "updated_at": "2025-06-10T16:00:00Z"
+  },
+  {
+    "id": "ORD006",
+    "product_id": "PRD002",
+    "buyer_id": "USR008",
+    "farmer_id": "USR001",
+    "agent_id": "USR005",
+    "quantity": 30.0,
+    "unit_price": 1200.0,
+    "total_price": 36000.0,
+    "currency": "BDT",
+    "status": "canceled",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মিরপুর (Mirpur)",
+      "detail": "কারওয়ান বাজার, দোকান নং ৪৫",
+      "lat": 23.7537,
+      "lon": 90.3929
+    },
+    "notes": "বাতিল - বাজারে দাম কমে গেছে।",
+    "created_at": "2025-11-20T10:00:00Z",
+    "updated_at": "2025-11-21T09:00:00Z"
+  },
+  {
+    "id": "ORD007",
+    "product_id": "PRD014",
+    "buyer_id": "USR009",
+    "farmer_id": "USR001",
+    "agent_id": "USR005",
+    "quantity": 2.0,
+    "unit_price": 12000.0,
+    "total_price": 24000.0,
+    "currency": "BDT",
+    "status": "placed",
+    "delivery_address": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "গুলশান (Gulshan)",
+      "detail": "গুলশান-২, রোড ৯৮, বাড়ি ১২",
+      "lat": 23.7925,
+      "lon": 90.4078
+    },
+    "notes": "২ কুইন্টাল দেশি রসুন। রেস্তোরাঁর জন্য।",
+    "created_at": "2025-12-08T14:00:00Z",
+    "updated_at": null
+  }
+]
