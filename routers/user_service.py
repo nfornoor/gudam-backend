@@ -17,13 +17,17 @@ from utils.helpers import now_iso
 
 router = APIRouter()
 
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Password hashing — bcrypt__truncate_error=False silently truncates passwords
+# longer than 72 bytes instead of raising an error (passlib >= 1.7.4 behaviour)
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto",
+    bcrypt__truncate_error=False,
+)
 
-def _trunc(password: str) -> str:
-    """Truncate password to 72 bytes — bcrypt's hard limit."""
-    encoded = password.encode("utf-8")
-    return encoded[:72].decode("utf-8", errors="ignore")
+def _trunc(password: str) -> bytes:
+    """Hard-truncate password to 72 bytes before hashing/verifying."""
+    return password.encode("utf-8")[:72]
 
 RECYCLE_BIN_DAYS = 30
 
