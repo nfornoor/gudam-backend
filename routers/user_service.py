@@ -20,6 +20,11 @@ router = APIRouter()
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+def _trunc(password: str) -> str:
+    """Truncate password to 72 bytes — bcrypt's hard limit."""
+    encoded = password.encode("utf-8")
+    return encoded[:72].decode("utf-8", errors="ignore")
+
 RECYCLE_BIN_DAYS = 30
 
 
@@ -111,7 +116,7 @@ def register(user_data: UserCreate):
                     _hard_delete_user(sb, u["id"])
 
         new_id = f"USR-{uuid.uuid4().hex[:8]}"
-        hashed = pwd_context.hash(user_data.password)
+        hashed = pwd_context.hash(_trunc(user_data.password))
 
         new_user = {
             "id": new_id,
@@ -167,7 +172,7 @@ def login(credentials: UserLogin):
         user = result.data[0]
 
         pw_hash = user.get("password_hash") or ""
-        hash_ok = pwd_context.verify(credentials.password, pw_hash) if pw_hash else False
+        hash_ok = pwd_context.verify(_trunc(credentials.password), pw_hash) if pw_hash else False
         if not hash_ok:
             # Fallback: accept demo password
             if credentials.password != "password123":
@@ -200,12 +205,12 @@ def change_password(data: ChangePassword):
 
         # Verify current password
         pw_hash = user.get("password_hash") or ""
-        hash_ok = pwd_context.verify(data.current_password, pw_hash) if pw_hash else False
+        hash_ok = pwd_context.verify(_trunc(data.current_password), pw_hash) if pw_hash else False
         is_demo = (data.current_password == "password123")
         if not hash_ok and not is_demo:
             raise HTTPException(status_code=401, detail="বর্তমান পাসওয়ার্ড ভুল (Current password is incorrect)")
 
-        new_hash = pwd_context.hash(data.new_password)
+        new_hash = pwd_context.hash(_trunc(data.new_password))
         sb.table("users").update({"password_hash": new_hash}).eq("id", data.user_id).execute()
 
         return {"message": "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে (Password changed successfully)"}
@@ -277,7 +282,7 @@ def reset_password(data: ResetPasswordConfirm):
             raise HTTPException(status_code=400, detail="ভুল OTP কোড (Invalid OTP code)")
 
         sb = get_supabase()
-        new_hash = pwd_context.hash(data.new_password)
+        new_hash = pwd_context.hash(_trunc(data.new_password))
         sb.table("users").update({"password_hash": new_hash}).eq("id", stored["user_id"]).execute()
 
         _reset_otp_store.pop(phone, None)
