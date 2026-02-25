@@ -9,7 +9,7 @@ class ProductBase(BaseModel):
     category: str
     quantity: float
     unit: str
-    quality_grade: str = Field(..., pattern="^(A|B|C)$")
+    quality_grade: str = Field("A", pattern="^(A|B|C)$")
     price_per_unit: float
     currency: str = "BDT"
     images: list[str] = []
