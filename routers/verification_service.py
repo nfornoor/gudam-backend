@@ -5,6 +5,7 @@ Handles product verification workflow by agents.
 
 import uuid
 import math
+import json
 from fastapi import APIRouter, HTTPException, Query
 from models.verification import VerificationCreate, VerificationOut, VerificationStatusUpdate
 from db import get_supabase
@@ -109,6 +110,7 @@ def start_verification(product_id: str, data: VerificationCreate):
 def list_verifications(
     status: str | None = Query(None, description="Filter by status"),
     agent_id: str | None = Query(None, description="Filter by agent ID"),
+    product_id: str | None = Query(None, description="Filter by product ID"),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
 ):
@@ -123,8 +125,10 @@ def list_verifications(
             query = query.eq("status", status)
         if agent_id:
             query = query.eq("agent_id", agent_id)
+        if product_id:
+            query = query.eq("product_id", product_id)
 
-        result = query.range(offset, offset + page_size - 1).execute()
+        result = query.order("created_at", desc=True).range(offset, offset + page_size - 1).execute()
         total = result.count if result.count is not None else len(result.data)
 
         items = _enrich_verifications(sb, result.data or [])
@@ -159,7 +163,7 @@ def get_agent_verifications(
         if status:
             query = query.eq("status", status)
 
-        result = query.range(offset, offset + page_size - 1).execute()
+        result = query.order("created_at", desc=True).range(offset, offset + page_size - 1).execute()
         total = result.count if result.count is not None else len(result.data)
 
         items = _enrich_verifications(sb, result.data or [])
@@ -220,7 +224,16 @@ def update_verification_status(verification_id: str, update: VerificationStatusU
 
         if update.quality_grade:
             v_update["verified_grade"] = update.quality_grade
-        if update.notes:
+        # Store verification method in record
+        if update.verification_method:
+            v_update["verification_method"] = update.verification_method
+        # For physical inspections, store images alongside notes as JSON
+        if update.verification_method == "physical" and update.images:
+            v_update["notes"] = json.dumps({
+                "text": update.notes or "",
+                "inspection_images": update.images
+            }, ensure_ascii=False)
+        elif update.notes:
             v_update["notes"] = update.notes
         if update.adjusted_quantity is not None:
             v_update["verified_quantity"] = update.adjusted_quantity
@@ -232,10 +245,17 @@ def update_verification_status(verification_id: str, update: VerificationStatusU
 
         # If verified/confirmed/adjusted, update the product
         if update.status in ("verified", "confirmed", "adjusted"):
+            # Determine verification tier
+            if update.verification_method == "physical" and update.images:
+                tier = "inspected"
+            else:
+                tier = "verified"
+
             p_update = {
                 "status": "verified",
                 "verified_by": verification["agent_id"],
                 "verification_date": now_iso(),
+                "verification_tier": tier,
             }
             if update.quality_grade:
                 p_update["quality_grade"] = update.quality_grade

@@ -221,6 +221,7 @@ def list_products(
     search: str | None = Query(None, description="Search in product name (EN or BN)"),
     farmer_id: str | None = Query(None, description="Filter by farmer ID"),
     quality_grade: str | None = Query(None, description="Filter by quality grade: A, B, C"),
+    verification_tier: str | None = Query(None, description="Filter by trust tier: inspected, verified"),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
 ):
@@ -243,6 +244,8 @@ def list_products(
             query = query.eq("farmer_id", farmer_id)
         if quality_grade:
             query = query.eq("quality_grade", quality_grade)
+        if verification_tier:
+            query = query.eq("verification_tier", verification_tier)
         if location:
             query = query.ilike("location", f"%{location}%")
         if search:

@@ -18,7 +18,6 @@ class VerificationCreate(BaseModel):
     quality_grade: Optional[str] = None
     notes: Optional[str] = None
     notes_bn: Optional[str] = None
-    images: list[str] = []
 
 
 class VerificationStatusUpdate(BaseModel):
@@ -28,6 +27,8 @@ class VerificationStatusUpdate(BaseModel):
     notes_bn: Optional[str] = None
     adjusted_quantity: Optional[float] = None
     adjusted_price: Optional[float] = None
+    verification_method: Optional[str] = Field(None, pattern="^(physical|call)$")
+    images: list[str] = []  # base64 inspection photos (physical visit only)
 
 
 class VerificationOut(VerificationBase):

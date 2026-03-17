@@ -19,6 +19,9 @@ class OrderCreate(BaseModel):
     quantity: float
     delivery_address: Optional[dict] = None
     notes: Optional[str] = None
+    platform_fee: Optional[float] = 0.0
+    delivery_charge: Optional[float] = 0.0
+    payment_transaction_id: Optional[str] = None
 
 
 class OrderStatusUpdate(BaseModel):

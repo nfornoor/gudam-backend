@@ -42,6 +42,7 @@ class ProductOut(ProductBase):
     created_at: str
     verified_by_agent_id: Optional[str] = None
     verification_date: Optional[str] = None
+    verification_tier: Optional[str] = None  # 'inspected' | 'verified'
 
     class Config:
         from_attributes = True

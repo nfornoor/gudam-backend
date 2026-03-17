@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS products (
     description_bn TEXT,
     verified_by TEXT REFERENCES users(id),
     verification_date TIMESTAMPTZ,
+    verification_tier TEXT CHECK (verification_tier IN ('inspected', 'verified')),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     deleted_at TIMESTAMPTZ DEFAULT NULL
 );
@@ -76,6 +77,8 @@ CREATE TABLE IF NOT EXISTS verifications (
     notes TEXT,
     adjustment_reason TEXT,
     call_duration TEXT,
+    verification_method TEXT CHECK (verification_method IN ('call', 'physical')),
+    images TEXT[] DEFAULT '{}',
     verified_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -127,6 +130,34 @@ CREATE TABLE IF NOT EXISTS notifications (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+"""
+
+MIGRATE_SQL = """
+-- Add verification_tier to products (if not already present)
+DO $$ BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'products' AND column_name = 'verification_tier'
+    ) THEN
+        ALTER TABLE products ADD COLUMN verification_tier TEXT CHECK (verification_tier IN ('inspected', 'verified'));
+    END IF;
+END $$;
+
+-- Add verification_method and images to verifications (if not already present)
+DO $$ BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'verifications' AND column_name = 'verification_method'
+    ) THEN
+        ALTER TABLE verifications ADD COLUMN verification_method TEXT CHECK (verification_method IN ('call', 'physical'));
+    END IF;
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'verifications' AND column_name = 'images'
+    ) THEN
+        ALTER TABLE verifications ADD COLUMN images TEXT[] DEFAULT '{}';
+    END IF;
+END $$;
 """
 
 RLS_SQL = """
@@ -230,6 +261,15 @@ def create_tables_via_sql(conn):
         conn.rollback()
         print(f"  Error creating tables: {e}")
         raise
+
+    print("Running migrations (adding missing columns)...")
+    try:
+        cur.execute(MIGRATE_SQL)
+        conn.commit()
+        print("  Migrations applied!")
+    except Exception as e:
+        conn.rollback()
+        print(f"  Warning: Migration issue: {e}")
 
     print("Setting up RLS policies...")
     try:

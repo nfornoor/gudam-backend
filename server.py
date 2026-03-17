@@ -3,7 +3,7 @@
 Main FastAPI application that wires together all microservice routers.
 
 Run with:
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    uvicorn server:app --reload --host 0.0.0.0 --port 8000
 
 Services: User, Product, Verification, Agent, Reputation, Order, OTP, Notification
 """
@@ -46,6 +46,8 @@ from routers.order_service import router as order_router
 from routers.otp_service import router as otp_router
 from routers.chat_service import router as chat_router
 from routers.notification_service import router as notification_router
+from routers.payment_service import router as payment_router
+from routers.market_service import router as market_router
 
 # ─── Application ──────────────────────────────────────────────────────────────
 
@@ -79,6 +81,8 @@ app.include_router(order_router, tags=["Order Service"])
 app.include_router(otp_router, tags=["OTP Service"])
 app.include_router(chat_router, tags=["Chat Service"])
 app.include_router(notification_router, tags=["Notification Service"])
+app.include_router(payment_router, tags=["Payment Service"])
+app.include_router(market_router, tags=["Market Service"])
 
 # ─── Root & Health ────────────────────────────────────────────────────────────
 

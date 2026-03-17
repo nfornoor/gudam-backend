@@ -43,7 +43,20 @@ def create_order(order_data: OrderCreate):
 
         product = product_result.data[0]
         unit_price = product["price_per_unit"]
-        total_price = unit_price * order_data.quantity
+        product_subtotal = unit_price * order_data.quantity
+        platform_fee = order_data.platform_fee or 0.0
+        delivery_charge = order_data.delivery_charge or 0.0
+        total_price = product_subtotal + platform_fee + delivery_charge
+
+        # Store fee breakdown + payment info in notes as JSON
+        notes_meta = {
+            "product_subtotal": product_subtotal,
+            "platform_fee": platform_fee,
+            "delivery_charge": delivery_charge,
+            "payment_transaction_id": order_data.payment_transaction_id,
+            "payment_status": "held" if order_data.payment_transaction_id else "pending",
+            "user_notes": order_data.notes or "",
+        }
 
         new_order = {
             "id": f"ORD-{uuid.uuid4().hex[:8]}",
@@ -56,7 +69,7 @@ def create_order(order_data: OrderCreate):
             "total_price": total_price,
             "status": "placed",
             "delivery_address": json.dumps(order_data.delivery_address, ensure_ascii=False) if order_data.delivery_address else None,
-            "notes": order_data.notes,
+            "notes": json.dumps(notes_meta, ensure_ascii=False),
             "placed_at": now_iso(),
             "created_at": now_iso(),
         }
@@ -217,6 +230,24 @@ def update_order_status(order_id: str, update: OrderStatusUpdate):
         if not existing.data:
             raise HTTPException(status_code=404, detail="অর্ডার পাওয়া যায়নি (Order not found)")
 
+        current_status = existing.data[0]["status"]
+
+        # Valid status transitions — prevent cancellation after shipping
+        allowed_transitions = {
+            "placed":    {"confirmed", "canceled"},
+            "confirmed": {"shipped", "canceled"},
+            "shipped":   {"delivered"},
+            "delivered": {"completed"},
+            "completed": set(),
+            "canceled":  set(),
+        }
+        allowed = allowed_transitions.get(current_status, set())
+        if update.status not in allowed:
+            raise HTTPException(
+                status_code=400,
+                detail=f"'{current_status}' থেকে '{update.status}'-এ পরিবর্তন করা যাবে না"
+            )
+
         update_data = {"status": update.status}
 
         # Set timestamp fields based on status
@@ -227,8 +258,17 @@ def update_order_status(order_id: str, update: OrderStatusUpdate):
         elif update.status == "delivered":
             update_data["delivered_at"] = now_iso()
 
+        # Merge notes update into existing JSON notes
+        existing_notes = {}
+        try:
+            existing_notes = json.loads(existing.data[0].get("notes") or "{}")
+        except Exception:
+            existing_notes = {}
+        if not isinstance(existing_notes, dict):
+            existing_notes = {"user_notes": str(existing_notes)}
         if update.notes:
-            update_data["notes"] = update.notes
+            existing_notes["user_notes"] = update.notes
+        update_data["notes"] = json.dumps(existing_notes, ensure_ascii=False)
 
         result = sb.table("orders").update(update_data).eq("id", order_id).execute()
         updated = result.data[0] if result.data else existing.data[0]
@@ -242,6 +282,72 @@ def update_order_status(order_id: str, update: OrderStatusUpdate):
             "canceled": "বাতিল হয়েছে",
         }
         status_bn = status_labels.get(update.status, update.status)
+
+        # Auto-disburse to farmer when order is delivered
+        if update.status == "delivered":
+            try:
+                from routers.payment_service import disburse_order
+                disburse_order(order_id)
+            except Exception:
+                pass  # Disbursement is best-effort; don't fail the status update
+
+        # req id-12: On cancellation — re-list product + refund buyer + notify farmer
+        if update.status == "canceled":
+            order_data = existing.data[0]
+            notes_meta = existing_notes  # already parsed above
+
+            # 1. Revert product to verified (re-list) if it was verified by an agent
+            try:
+                p_res = sb.table("products").select("status,verified_by,farmer_id,name_bn").eq("id", order_data["product_id"]).execute()
+                if p_res.data:
+                    prod = p_res.data[0]
+                    if prod.get("verified_by"):  # was verified — safe to re-list
+                        sb.table("products").update({"status": "verified"}).eq("id", order_data["product_id"]).execute()
+            except Exception:
+                pass
+
+            # 2. Issue buyer escrow refund (listing fee stays with platform — non-refundable)
+            payment_txn_id = notes_meta.get("payment_transaction_id")
+            if payment_txn_id:
+                try:
+                    refund_amount = order_data.get("total_price", 0)
+                    sb.table("transactions").insert({
+                        "id": f"REF-{uuid.uuid4().hex[:8]}",
+                        "payer_id": "platform",
+                        "payee_id": order_data.get("buyer_id"),
+                        "amount": refund_amount,
+                        "purpose": "refund",
+                        "reference_id": order_id,
+                        "status": "completed",
+                        "payment_method": "bkash_dummy",
+                        "created_at": now_iso(),
+                        "completed_at": now_iso(),
+                    }).execute()
+                except Exception:
+                    pass
+
+            # 3. Notify farmer: re-listed + listing fee non-refundable
+            if order_data.get("farmer_id"):
+                try:
+                    prod_name = ""
+                    try:
+                        pn = sb.table("products").select("name_bn").eq("id", order_data["product_id"]).execute()
+                        if pn.data:
+                            prod_name = pn.data[0].get("name_bn", "")
+                    except Exception:
+                        pass
+                    send_notification(
+                        user_id=order_data["farmer_id"],
+                        notif_type="order_canceled",
+                        title="Order Canceled — Product Re-listed",
+                        title_bn="অর্ডার বাতিল — পণ্য পুনরায় তালিকাভুক্ত",
+                        message=f"Order {order_id} was canceled. Your product has been re-listed as verified. Listing fee is non-refundable.",
+                        message_bn=f"অর্ডার {order_id} বাতিল হয়েছে। আপনার পণ্য '{prod_name}' পুনরায় যাচাইকৃত হিসেবে তালিকাভুক্ত হয়েছে। তালিকাভুক্তি ফি ফেরতযোগ্য নয়।",
+                        related_id=order_id,
+                        sms=True,
+                    )
+                except Exception:
+                    pass
 
         # Notify buyer on all status changes
         if order.get("buyer_id"):
