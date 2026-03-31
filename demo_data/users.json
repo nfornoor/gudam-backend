@@ -1,0 +1,253 @@
+[
+  {
+    "id": "USR001",
+    "name": "আব্দুর রহিম (Abdur Rahim)",
+    "email": "abdur.rahim@example.com",
+    "phone": "+8801711000001",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "farmer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=abdur",
+    "location": {
+      "district": "রাজশাহী (Rajshahi)",
+      "upazila": "পবা (Poba)",
+      "village": "হরিপুর (Horipur)",
+      "lat": 24.3745,
+      "lon": 88.6042
+    },
+    "created_at": "2025-06-15T08:00:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "২০ বছর ধরে ধান ও আলু চাষ করছি। আধুনিক কৃষি পদ্ধতি ব্যবহার করি।",
+      "farm_size_acres": 8.5,
+      "crops_grown": ["ধান (Rice)", "আলু (Potato)", "পেঁয়াজ (Onion)"],
+      "nid_number": "1990123456789",
+      "years_of_experience": 20
+    }
+  },
+  {
+    "id": "USR002",
+    "name": "ফাতেমা বেগম (Fatema Begum)",
+    "email": "fatema.begum@example.com",
+    "phone": "+8801711000002",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "farmer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=fatema",
+    "location": {
+      "district": "রংপুর (Rangpur)",
+      "upazila": "মিঠাপুকুর (Mithapukur)",
+      "village": "শ্যামপুর (Shyampur)",
+      "lat": 25.7439,
+      "lon": 89.2752
+    },
+    "created_at": "2025-07-02T10:30:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "সবজি চাষে বিশেষজ্ঞ। জৈব পদ্ধতিতে চাষাবাদ করি।",
+      "farm_size_acres": 5.0,
+      "crops_grown": ["টমেটো (Tomato)", "বেগুন (Eggplant)", "ফুলকপি (Cauliflower)", "বাঁধাকপি (Cabbage)"],
+      "nid_number": "1985234567890",
+      "years_of_experience": 15
+    }
+  },
+  {
+    "id": "USR003",
+    "name": "মো. করিম উদ্দিন (Md. Karim Uddin)",
+    "email": "karim.uddin@example.com",
+    "phone": "+8801711000003",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "farmer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=karim",
+    "location": {
+      "district": "বগুড়া (Bogura)",
+      "upazila": "শিবগঞ্জ (Shibganj)",
+      "village": "মহাস্থান (Mahasthan)",
+      "lat": 24.8481,
+      "lon": 89.3710
+    },
+    "created_at": "2025-05-20T06:45:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "তিন প্রজন্ম ধরে কৃষিকাজ করছি। ধান ও গম আমাদের প্রধান ফসল।",
+      "farm_size_acres": 12.0,
+      "crops_grown": ["ধান (Rice)", "গম (Wheat)", "মসুর ডাল (Lentil)"],
+      "nid_number": "1978345678901",
+      "years_of_experience": 30
+    }
+  },
+  {
+    "id": "USR004",
+    "name": "রুবিনা আক্তার (Rubina Akter)",
+    "email": "rubina.akter@example.com",
+    "phone": "+8801711000004",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "farmer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=rubina",
+    "location": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "সাভার (Savar)",
+      "village": "আমিনবাজার (Aminbazar)",
+      "lat": 23.8515,
+      "lon": 90.2668
+    },
+    "created_at": "2025-08-10T12:00:00Z",
+    "is_verified": false,
+    "profile_details": {
+      "bio": "ফল চাষে আগ্রহী। আম ও পেঁপে বাগান আছে।",
+      "farm_size_acres": 3.5,
+      "crops_grown": ["আম (Mango)", "পেঁপে (Papaya)", "কলা (Banana)"],
+      "nid_number": "1992456789012",
+      "years_of_experience": 8
+    }
+  },
+  {
+    "id": "USR005",
+    "name": "মো. হাসান আলী (Md. Hasan Ali)",
+    "email": "hasan.ali@example.com",
+    "phone": "+8801711000005",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "agent",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=hasan",
+    "location": {
+      "district": "রাজশাহী (Rajshahi)",
+      "upazila": "পবা (Poba)",
+      "village": "কাটাখালী (Katakhali)",
+      "lat": 24.3636,
+      "lon": 88.6241
+    },
+    "created_at": "2025-04-01T09:00:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "রাজশাহী গুদাম মালিক। ১০ বছরের অভিজ্ঞতা আছে কৃষি পণ্য সংরক্ষণে।",
+      "gudam_name": "হাসান কৃষি গুদাম (Hasan Krishi Gudam)",
+      "storage_capacity_tons": 500.0,
+      "storage_type": "শীতলীকরণ ও শুকনো উভয় (Cold & Dry Storage)",
+      "nid_number": "1980567890123",
+      "years_of_experience": 10
+    }
+  },
+  {
+    "id": "USR006",
+    "name": "নাজমুল ইসলাম (Nazmul Islam)",
+    "email": "nazmul.islam@example.com",
+    "phone": "+8801711000006",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "agent",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=nazmul",
+    "location": {
+      "district": "বগুড়া (Bogura)",
+      "upazila": "শিবগঞ্জ (Shibganj)",
+      "village": "মোকামতলা (Mokamtala)",
+      "lat": 24.8510,
+      "lon": 89.3650
+    },
+    "created_at": "2025-03-15T07:30:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "বগুড়ার সবচেয়ে বড় কৃষি গুদামগুলোর একটি পরিচালনা করি।",
+      "gudam_name": "নাজমুল এগ্রো গুদাম (Nazmul Agro Gudam)",
+      "storage_capacity_tons": 800.0,
+      "storage_type": "শুকনো গুদাম (Dry Storage)",
+      "nid_number": "1975678901234",
+      "years_of_experience": 18
+    }
+  },
+  {
+    "id": "USR007",
+    "name": "সালমা খাতুন (Salma Khatun)",
+    "email": "salma.khatun@example.com",
+    "phone": "+8801711000007",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "agent",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=salma",
+    "location": {
+      "district": "রংপুর (Rangpur)",
+      "upazila": "রংপুর সদর (Rangpur Sadar)",
+      "village": "মাহিগঞ্জ (Mahiganj)",
+      "lat": 25.7559,
+      "lon": 89.2445
+    },
+    "created_at": "2025-05-10T11:15:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "রংপুরে আলু ও সবজি সংরক্ষণে বিশেষজ্ঞ। মহিলা উদ্যোক্তা।",
+      "gudam_name": "সালমা কোল্ড স্টোরেজ (Salma Cold Storage)",
+      "storage_capacity_tons": 350.0,
+      "storage_type": "শীতলীকরণ গুদাম (Cold Storage)",
+      "nid_number": "1988789012345",
+      "years_of_experience": 7
+    }
+  },
+  {
+    "id": "USR008",
+    "name": "তানভীর আহমেদ (Tanvir Ahmed)",
+    "email": "tanvir.ahmed@example.com",
+    "phone": "+8801711000008",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "buyer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=tanvir",
+    "location": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মিরপুর (Mirpur)",
+      "village": "কাজীপাড়া (Kazipara)",
+      "lat": 23.7937,
+      "lon": 90.3535
+    },
+    "created_at": "2025-06-20T14:00:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "পাইকারি কৃষি পণ্য ব্যবসায়ী। ঢাকার কারওয়ান বাজারে দোকান আছে।",
+      "business_name": "তানভীর ট্রেডার্স (Tanvir Traders)",
+      "business_type": "wholesaler",
+      "nid_number": "1983890123456",
+      "years_of_experience": 12
+    }
+  },
+  {
+    "id": "USR009",
+    "name": "নুসরাত জাহান (Nusrat Jahan)",
+    "email": "nusrat.jahan@example.com",
+    "phone": "+8801711000009",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "buyer",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=nusrat",
+    "location": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "গুলশান (Gulshan)",
+      "village": "গুলশান-২ (Gulshan-2)",
+      "lat": 23.7925,
+      "lon": 90.4078
+    },
+    "created_at": "2025-07-15T16:30:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "রেস্টুরেন্ট চেইনের মালিক। তাজা ও মানসম্পন্ন কৃষি পণ্য প্রয়োজন।",
+      "business_name": "ঘরোয়া রেস্তোরাঁ (Ghoroa Restaurant)",
+      "business_type": "restaurant",
+      "nid_number": "1990901234567",
+      "years_of_experience": 5
+    }
+  },
+  {
+    "id": "USR010",
+    "name": "মো. আরিফুল ইসলাম (Md. Ariful Islam)",
+    "email": "admin@gudam.com.bd",
+    "phone": "+8801711000010",
+    "password_hash": "$2b$12$LJ3kFbQk0PNPEjCYGbTqXOFkJ4MxFKqGQ5nKfG8p1sA0V9TxZm6KG",
+    "role": "admin",
+    "avatar_url": "https://api.dicebear.com/7.x/personas/svg?seed=ariful",
+    "location": {
+      "district": "ঢাকা (Dhaka)",
+      "upazila": "মতিঝিল (Motijheel)",
+      "village": "মতিঝিল (Motijheel)",
+      "lat": 23.7331,
+      "lon": 90.4170
+    },
+    "created_at": "2025-01-01T00:00:00Z",
+    "is_verified": true,
+    "profile_details": {
+      "bio": "গুদাম প্ল্যাটফর্মের প্রশাসক।",
+      "nid_number": "1985012345678",
+      "years_of_experience": 10
+    }
+  }
+]
